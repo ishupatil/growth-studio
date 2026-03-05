@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Nunito:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-primary: #0A0A0F;
+  --bg-card: #13131A;
+  --bg-elevated: #1C1C28;
+  --accent-primary: #6C63FF;
+  --accent-secondary: #FF6584;
+  --accent-glow: #4ECDC4;
+  --text-primary: #F0F0FF;
+  --text-secondary: #8888AA;
+  --border: rgba(255, 255, 255, 0.08);
+  --gradient-hero: linear-gradient(135deg, #6C63FF 0%, #FF6584 100%);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.gradient-text {
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(108,99,255,0.05), 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.btn-primary {
+  background: var(--gradient-hero);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 36px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 10px 24px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.btn-ghost:hover {
+  border-color: rgba(108,99,255,0.5);
+  color: var(--text-primary);
+}
+
+.input-field {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 150ms ease;
+  appearance: none;
+}
+
+.input-field:focus {
+  border-color: var(--accent-primary);
+}
+
+.input-field.error {
+  border-color: var(--accent-secondary);
+}
+
+.input-error-msg {
+  color: var(--accent-secondary);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(108,99,255,0.12);
+  color: var(--accent-primary);
+  border: 1px solid rgba(108,99,255,0.25);
+  border-radius: 50px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tag {
+  display: inline-block;
+  background: rgba(108,99,255,0.1);
+  color: #9B95FF;
+  border: 1px solid rgba(108,99,255,0.2);
+  border-radius: 50px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.tag-teal {
+  background: rgba(78,205,196,0.1);
+  color: #4ECDC4;
+  border-color: rgba(78,205,196,0.2);
+}
+
+.tag-coral {
+  background: rgba(255,101,132,0.1);
+  color: #FF6584;
+  border-color: rgba(255,101,132,0.2);
+}
+
+.section-label {
+  font-size: 11px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+/* Pulse animation for running state */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(108,99,255,0.3), 0 0 20px rgba(108,99,255,0.1); }
+  50% { box-shadow: 0 0 0 1px rgba(108,99,255,0.6), 0 0 30px rgba(108,99,255,0.25); }
+}
+
+.agent-running {
+  animation: pulse-glow 1.8s ease-in-out infinite;
+  border-color: var(--accent-primary) !important;
+}
+
+/* Progress bar animation */
+@keyframes progress-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.progress-bar-fill {
+  animation: progress-fill 2.5s ease-in-out forwards;
+  background: var(--gradient-hero);
+  height: 4px;
+  border-radius: 50px;
+}
+
+/* Fade in animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* Staggered fade in for cards */
+.fade-in-1 { animation: fadeInUp 0.4s ease 0.05s both; }
+.fade-in-2 { animation: fadeInUp 0.4s ease 0.15s both; }
+.fade-in-3 { animation: fadeInUp 0.4s ease 0.25s both; }
+.fade-in-4 { animation: fadeInUp 0.4s ease 0.35s both; }

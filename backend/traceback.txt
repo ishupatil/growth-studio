@@ -1,0 +1,28 @@
+EXCEPTION RAISED: <class 'fastapi.exceptions.HTTPException'>
+EXCEPTION STR: 500: {'message': 'new row violates row-level security policy for table "user_profiles"', 'code': '42501', 'hint': None, 'details': None}
+Traceback (most recent call last):
+  File "E:\antigravity\growth-studio\backend\main.py", line 76, in generate_growth_plan
+    }, on_conflict="username").execute()
+                               ^^^^^^^^^
+  File "C:\Users\ishup\AppData\Local\Programs\Python\Python312\Lib\site-packages\postgrest\_sync\request_builder.py", line 53, in execute
+    raise APIError(dict(json_obj))
+postgrest.exceptions.APIError: {'message': 'new row violates row-level security policy for table "user_profiles"', 'code': '42501', 'hint': None, 'details': None}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\antigravity\growth-studio\backend\test_api.py", line 30, in test
+    res = asyncio.run(generate_growth_plan(profile))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ishup\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\ishup\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ishup\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 664, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "E:\antigravity\growth-studio\backend\main.py", line 112, in generate_growth_plan
+    raise HTTPException(status_code=500, detail=str(e))
+fastapi.exceptions.HTTPException: 500: {'message': 'new row violates row-level security policy for table "user_profiles"', 'code': '42501', 'hint': None, 'details': None}

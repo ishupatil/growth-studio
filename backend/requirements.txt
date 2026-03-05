@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+crewai
+crewai-tools
+langchain-groq
+python-dotenv
+pydantic
+supabase
+instaloader
+apscheduler
