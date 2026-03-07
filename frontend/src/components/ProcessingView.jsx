@@ -20,10 +20,10 @@ export default function ProcessingView({ done, error, onRetry, onReset }) {
         }
         if (error) return;
 
-        // Timers cover up to ~70s to handle Render cold starts (free tier can take 50-90s)
-        // Each agent animates for a realistic duration, last one ends at 70s
-        const timings = [0, 15000, 32000, 52000]; // when each agent "starts"
-        const durations = [15000, 17000, 20000, 18000]; // how long each "runs"
+        // Timers cover ~35s to match llama-3.1-8b-instant speed
+        // Each agent animates for a realistic duration, last one ends at 35s
+        const timings = [0, 7000, 15000, 25000]; // when each agent "starts"
+        const durations = [7000, 8000, 10000, 10000]; // how long each "runs"
 
         const timers = [];
         AGENTS.forEach((agent, i) => {
@@ -119,7 +119,7 @@ export default function ProcessingView({ done, error, onRetry, onReset }) {
                         </div>
 
                         <p style={{ textAlign: "center", color: "var(--text-secondary)", fontSize: "12px", marginTop: "28px" }}>
-                            {animationsDone ? "⏳ Waiting for AI response — please don't close this tab" : "This usually takes 20–90 seconds (longer on first load)"}
+                            {animationsDone ? "⏳ Waiting for AI response — please don't close this tab" : "This usually takes 20–40 seconds"}
                         </p>
                     </>
                 )}
