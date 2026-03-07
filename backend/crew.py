@@ -356,6 +356,7 @@ def run_growth_crew(data: dict, feedback_data: dict = None) -> dict:
         """,
         agent=competitor_agent,
         expected_output="A structured competitor analysis with strengths, weaknesses, differentiation strategy, content angles, and one quick win",
+        context=[audit_task],
     )
 
     # ─────────────────────────────────────────
