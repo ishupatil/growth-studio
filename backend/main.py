@@ -51,7 +51,7 @@ else:
 # Allow React frontend to call this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins=["http://localhost:5173", "http://localhost:3000", "https://growth-studio-qavh.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
