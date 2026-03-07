@@ -31,13 +31,30 @@ export default function App() {
 
     try {
       const headers = await getAuthHeaders();
+
+      // 3 minute timeout — Render free tier cold starts can take 90s+ for CrewAI
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 180000);
+
       const response = await fetch("/api/generate", {
         method: "POST",
         headers,
         body: JSON.stringify(data),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
-      const json = await response.json();
+      // Read as text first — Render sometimes returns plain-text errors (not JSON)
+      const text = await response.text();
+      let json;
+      try {
+        json = JSON.parse(text);
+      } catch {
+        // Render timed out or crashed — give a clear message
+        throw new Error(
+          "The server took too long to respond. This happens on first load when the server is waking up. Please click Try Again."
+        );
+      }
 
       if (!response.ok || !json.success) {
         let errDetail = json.detail || "Something went wrong";
@@ -48,7 +65,11 @@ export default function App() {
       setResults(json.data);
       setTimeout(() => setScreen("results"), 600);
     } catch (err) {
-      setError(err.message);
+      if (err.name === "AbortError") {
+        setError("Request timed out after 3 minutes. Please try again — the server should be warmed up now.");
+      } else {
+        setError(err.message);
+      }
       setScreen("processing");
     }
   };
