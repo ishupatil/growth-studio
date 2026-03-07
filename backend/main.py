@@ -103,17 +103,14 @@ async def get_instagram_profile(username: str):
     clean_username = username.lstrip("@").strip()
     result = fetch_public_profile(clean_username)
     
-    # If Instaloader is blocked (401/rate limit), provide a mock profile for testing
+    # If Instaloader is blocked (401/rate limit on Render's servers),
+    # return a 503 so the frontend shows "Could not fetch — fill manually"
     if result and "error" in result:
         print(f"Instaloader failed for {clean_username}: {result['error']}")
-        return {
-            "username": clean_username,
-            "followers": 12400,
-            "avg_likes": 850,
-            "avg_comments": 45,
-            "bio": "Mocked bio fallback - Instagram blocked the request",
-            "posts_count": 120,
-        }
+        raise HTTPException(
+            status_code=503,
+            detail="Instagram auto-fill unavailable. Please fill in your stats manually."
+        )
         
     return result
 

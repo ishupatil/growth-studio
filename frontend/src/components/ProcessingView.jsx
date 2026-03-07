@@ -10,6 +10,7 @@ const AGENTS = [
 export default function ProcessingView({ done, error, onRetry, onReset }) {
     const [activeAgent, setActiveAgent] = useState(0);
     const [completedAgents, setCompletedAgents] = useState([]);
+    const [animationsDone, setAnimationsDone] = useState(false);
 
     useEffect(() => {
         if (done) {
@@ -19,9 +20,10 @@ export default function ProcessingView({ done, error, onRetry, onReset }) {
         }
         if (error) return;
 
-        // Simulate agent progress while API runs (~25-40s total)
-        const timings = [0, 7000, 16000, 25000]; // when each agent "starts"
-        const durations = [7000, 9000, 9000, 8000]; // how long each "runs"
+        // Timers cover up to ~70s to handle Render cold starts (free tier can take 50-90s)
+        // Each agent animates for a realistic duration, last one ends at 70s
+        const timings = [0, 15000, 32000, 52000]; // when each agent "starts"
+        const durations = [15000, 17000, 20000, 18000]; // how long each "runs"
 
         const timers = [];
         AGENTS.forEach((agent, i) => {
@@ -31,6 +33,9 @@ export default function ProcessingView({ done, error, onRetry, onReset }) {
             timers.push(setTimeout(() => {
                 setCompletedAgents(prev => [...prev, agent.id]);
                 setActiveAgent(null);
+                if (i === AGENTS.length - 1) {
+                    setAnimationsDone(true); // all animation done, but API may still be running
+                }
             }, timings[i] + durations[i]));
         });
 
@@ -53,10 +58,13 @@ export default function ProcessingView({ done, error, onRetry, onReset }) {
                 <div style={{ textAlign: "center", marginBottom: "40px" }} className="fade-in">
                     <div className="badge" style={{ marginBottom: "16px" }}>✦ AI Agents Running</div>
                     <h2 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "10px" }}>
-                        {error ? "Something went wrong" : done ? "Plan ready!" : "Building your growth plan..."}
+                        {error ? "Something went wrong" : done ? "Plan ready!" : animationsDone ? "Almost there..." : "Building your growth plan..."}
                     </h2>
                     <p style={{ color: "var(--text-secondary)", fontSize: "15px", whiteSpace: "pre-wrap", maxWidth: "100%", wordBreak: "break-word" }}>
-                        {error ? (typeof error === 'object' ? JSON.stringify(error) : error) : done ? "Your weekly growth package is ready." : "Our agents are analyzing your profile"}
+                        {error ? (typeof error === 'object' ? JSON.stringify(error) : error)
+                            : done ? "Your weekly growth package is ready."
+                                : animationsDone ? "Finalizing your plan — this can take up to 90s on first load. Please wait..."
+                                    : "Our agents are analyzing your profile"}
                     </p>
                 </div>
 
@@ -111,7 +119,7 @@ export default function ProcessingView({ done, error, onRetry, onReset }) {
                         </div>
 
                         <p style={{ textAlign: "center", color: "var(--text-secondary)", fontSize: "12px", marginTop: "28px" }}>
-                            This usually takes 20–40 seconds
+                            {animationsDone ? "⏳ Waiting for AI response — please don't close this tab" : "This usually takes 20–90 seconds (longer on first load)"}
                         </p>
                     </>
                 )}

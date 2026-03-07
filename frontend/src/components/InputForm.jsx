@@ -65,12 +65,13 @@ export default function InputForm({ onSubmit }) {
             } else if (res.status === 403) {
                 setAutoFillStatus("private");
             } else {
+                // 503 = Instaloader blocked on server, or any other error
                 setAutoFillStatus("failed");
             }
         } catch {
             setAutoFillStatus("failed");
         }
-        setTimeout(() => setAutoFillStatus(null), 4000);
+        setTimeout(() => setAutoFillStatus(null), 5000);
     };
 
     const handleSubmit = () => {
